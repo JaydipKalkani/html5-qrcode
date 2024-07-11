@@ -51,3 +51,22 @@ export class VideoConstraintsUtil {
         return true;
     }
 }
+
+export class ImageUtil {
+    // --- cap given dimensions to given maxCap
+    public static capDimensions(width: number, height: number, maxCap: number = 500) {
+        if (width > maxCap || height > maxCap) {
+        let ratio = width / height;
+    
+        if (width > height) {
+            width = maxCap;
+            height = Math.round(width / ratio);
+        } else {
+            height = maxCap;
+            width = Math.round(height * ratio);
+        }
+        }
+    
+        return { width, height };
+    }
+}
