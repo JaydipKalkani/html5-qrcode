@@ -29,7 +29,7 @@ import {
     QrDimensionFunction
 } from "./core";
 import { Html5QrcodeStrings } from "./strings";
-import { VideoConstraintsUtil } from "./utils";
+import { ImageUtil, VideoConstraintsUtil } from "./utils";
 import { Html5QrcodeShim } from "./code-decoder";
 import { CameraFactory } from "./camera/factories";
 import {
@@ -633,7 +633,7 @@ export class Html5Qrcode {
      * documented.
      * TODO(mebjas): Replace scanFile with ScanFileV2
      */
-    public scanFileV2(imageFile: File, /* default=true */ showImage?: boolean)
+    public scanFileV2(imageFile: File, /* default=true */ showImage?: boolean, maxCapForHiddenCanvas?: number)
         : Promise<Html5QrcodeResult> {
         if (!imageFile || !(imageFile instanceof File)) {
             throw "imageFile argument is mandatory and should be instance "
@@ -698,6 +698,13 @@ export class Html5Qrcode {
                 let padding = Constants.FILE_SCAN_HIDDEN_CANVAS_PADDING;
                 let hiddenImageWidth = Math.max(inputImage.width, config.width);
                 let hiddenImageHeight = Math.max(inputImage.height, config.height);
+
+                if (maxCapForHiddenCanvas) {
+                    const { width, height } = ImageUtil.capDimensions(hiddenImageWidth, hiddenImageHeight)
+                    hiddenImageWidth = width;
+                    hiddenImageHeight = height;
+                }
+
 
                 let hiddenCanvasWidth = hiddenImageWidth + 2 * padding;
                 let hiddenCanvasHeight = hiddenImageHeight + 2 * padding;
