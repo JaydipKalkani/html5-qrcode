@@ -33,7 +33,7 @@
     "release_windows": "npm run build && cp dist\\html5-qrcode.min.js minified\\html5-qrcode.min.js && cd dist && npm publish",
     "doc_gen": "npx typedoc --excludePrivate src/index.ts",
     "prepare": "npm run-script build",
-    "postinstall": "cp -R ./dist ./"
+    "postinstall": "cp -R dist/ /"
   },
   "repository": {
     "type": "git",
